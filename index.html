@@ -10,7 +10,7 @@
 <style>
 body { margin: 0; font-family: Arial, sans-serif; }
 
-/* Tabs */
+/* tab style */
 .tab { display: flex; flex-wrap: wrap; background: #0079c1; }
 .tab button { flex: 1 1 auto; background: inherit; border: none; outline: none; cursor: pointer; padding: 14px 12px; color: white; font-size: 1em; }
 .tab button.active { background: #005a87; }
@@ -19,11 +19,10 @@ body { margin: 0; font-family: Arial, sans-serif; }
 }
 .survey-btn, .help-btn { flex: 1 1 auto; margin: 4px 2px; font-size: 1em; }
 
-/* Tab content */
 .tabcontent { display: none; width: 100%; position: relative; }
 .mapContainer { height: calc(100vh - 52px); width: 100%; }
 
-/* Count boxes */
+/* count indcators */
 .countBoxes {
   position: absolute;
   bottom: 0;
@@ -47,7 +46,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
   min-width: 120px;
 }
 
-/* Assigned filter */
+/* assigned filter */
 #assignedFilter {
   position: absolute;
   top: 10px;
@@ -61,13 +60,13 @@ body { margin: 0; font-family: Arial, sans-serif; }
   font-size: 1em;
 }
 
-/* Splash popup */
-#splashModal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 12px; }
-#splashModal.active { display: flex; }
+/* splash popup */
+#splashPopup { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 12px; }
+#splashPopup.active { display: flex; }
 #splashContent { background: white; padding: 20px; border-radius: 8px; max-width: 95%; box-shadow: 0 0 15px rgba(0,0,0,0.3); font-size: 1em; line-height: 1.4; }
 #splashCloseBtn { position: absolute; top: 8px; right: 8px; background: #bc143c; border: none; color: white; font-size: 1.2em; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; line-height: 30px; text-align: center; }
 
-/* Responsive tweaks */
+/* mobile friendly adjustments */
 @media (max-width: 768px) {
   .tab button, .survey-btn, .help-btn { font-size: 0.9em; padding: 12px 10px; }
   .countBoxes { flex-direction: column; font-size: 0.9em; }
@@ -87,7 +86,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
   <button class="tablink" onclick="openTab(event, 'assigned')">Assigned</button>
   <button class="tablink" onclick="openTab(event, 'completed')">Completed</button>
   <button class="survey-btn" onclick="window.open('https://survey123.arcgis.com/share/14b60521f4b843239d951fa1ce3a6f57','_blank')">Resource Request Form</button>
-  <button class="help-btn" id="helpBtn">Help</button>
+  <button class="help-btn" id="helpButton">Help</button>
 </div>
 
 <!-- resource request dashboard tab -->
@@ -120,7 +119,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
 </div>
 
 <!-- splash popup -->
-<div id="splashModal" role="dialog" aria-modal="true" aria-labelledby="splashTitle" tabindex="-1">
+<div id="splashPopup" role="dialog" aria-modal="true" aria-labelledby="splashTitle" tabindex="-1">
   <div id="splashContent">
     <button id="splashCloseBtn" aria-label="Close Help">&times;</button>
     <h2 id="splashTitle" style="text-align:center;">Welcome to the Resource Request Tracking, Assignment, and Approval Application</h2>
@@ -149,24 +148,24 @@ function openTab(evt, tabName) {
 }
 
 //splash popup show/hide
-const splashModal = document.getElementById("splashModal");
-const helpBtn = document.getElementById("helpBtn");
+const splashPopup = document.getElementById("splashPopup");
+const helpButton = document.getElementById("helpButton");
 const splashCloseBtn = document.getElementById("splashCloseBtn");
 
 //splash on page load
-splashModal.classList.add("active");
-splashModal.focus();
+splashPopup.classList.add("active");
+splashPopup.focus();
 
-helpBtn.addEventListener("click", () => {
-  splashModal.classList.add("active");
-  splashModal.focus();
+helpButton.addEventListener("click", () => {
+  splashPopup.classList.add("active");
+  splashPopup.focus();
 });
 splashCloseBtn.addEventListener("click", () => {
-  splashModal.classList.remove("active");
+  splashPopup.classList.remove("active");
 });
-splashModal.addEventListener("click", (evt) => {
-  if(evt.target === splashModal){
-    splashModal.classList.remove("active");
+splashPopup.addEventListener("click", (evt) => {
+  if(evt.target === splashPopup){
+    splashPopup.classList.remove("active");
   }
 });
 
@@ -269,7 +268,7 @@ require([
 
   dashboardView.whenLayerView(dashboardLayer).then(()=>updateCountsDashboard());
 
-  /* pending review tab layers*/
+  // pending review tab layers//
   const pendingCounties = new FeatureLayer({
     url:"https://services5.arcgis.com/Ul9AyFFeFTjf08DW/arcgis/rest/services/Wisconsin_County_Boundaries_24K/FeatureServer/0",
     title:"County Boundaries",
